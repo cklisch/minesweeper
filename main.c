@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define FIELD_SIZE_X 10
 #define FIELD_SIZE_Y 10
@@ -18,8 +19,8 @@ char GRAPHIC[] = {' ','1','2','3','4','5','6','7','8','M','X','F','#','S'};
 
 int initialize_model(void){
     int x,y,i,j,k;
-    time_t t;
-    srand((unsigned) t+4);
+    
+    srand(time(NULL));
     for (i=0; i<FIELD_SIZE_X; i++){
         for (j=0; j<FIELD_SIZE_Y; j++) {
             FIELD_MODEL[i][j]=EMPTY;
