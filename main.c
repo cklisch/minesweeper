@@ -20,7 +20,7 @@ char GRAPHIC[] = {' ','1','2','3','4','5','6','7','8','M','X','F','#','S'};
 int initialize_model(void){
     int x,y,i,j,k;
     
-    srand(time(NULL));
+    srand((unsigned) time(NULL));
     for (i=0; i<FIELD_SIZE_X; i++){
         for (j=0; j<FIELD_SIZE_Y; j++) {
             FIELD_MODEL[i][j]=EMPTY;
