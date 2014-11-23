@@ -4,7 +4,7 @@
 
 #define FIELD_SIZE_X 10
 #define FIELD_SIZE_Y 10
-#define MINES_NR 2
+#define MINES_NR 7
 #define EMPTY 0
 #define MINE 9
 #define EXP_MINE 10
@@ -24,6 +24,7 @@ int initialize_model(void){
     for (i=0; i<FIELD_SIZE_X; i++){
         for (j=0; j<FIELD_SIZE_Y; j++) {
             FIELD_MODEL[i][j]=EMPTY;
+            FIELD_VIEW[i][j]=HIDDEN;
         }
     }
     
@@ -50,20 +51,7 @@ int initialize_model(void){
     return 1;
 }
 
-
-int initialize_view(void){
-    int i,j;
-    
-    for (i=0; i<FIELD_SIZE_X; i++){
-        for (j=0; j<FIELD_SIZE_Y; j++) {
-            FIELD_VIEW[i][j]=HIDDEN;
-        }
-    }
-    
-    return 1;
-}
-
-int update_view(int x, int y, int command, int mode){
+void update_view(int x, int y, int command, int mode){
     int i,j;
     if (x<0 || x>=FIELD_SIZE_X || y<0 || y>=FIELD_SIZE_Y) {
         if (mode==SHOW) printf("outside scope\n");
@@ -77,7 +65,7 @@ int update_view(int x, int y, int command, int mode){
                     if (i==0 && j==0) {
                         
                     }
-                    else if(FIELD_VIEW[x+i][y+j]!=EMPTY) update_view(x+i, y+j, SELECT, HIDDEN);
+                    else if(FIELD_VIEW[x+i][y+j]!=EMPTY && x+i>=0 && x+i<FIELD_SIZE_X && y+j>=0 && y+j<FIELD_SIZE_Y) update_view(x+i, y+j, SELECT, HIDDEN);
                 }
             }
         }
@@ -110,10 +98,7 @@ int update_view(int x, int y, int command, int mode){
                 }
             }
         }
-
     }
-    
-        return 1;
 }
 
 int check_win(void){
@@ -135,12 +120,10 @@ int check_win(void){
             }
         }
     }
-
     if (accuracy==mines && misses==0) {
         printf("you win!\n");
         return 1;
     }
-    
     return 0;
 }
 
