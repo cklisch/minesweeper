@@ -55,7 +55,7 @@ void update_view(int x, int y, int command, int mode){
     int i,j;
     if (x<0 || x>=FIELD_SIZE_X || y<0 || y>=FIELD_SIZE_Y) {
         if (mode==SHOW) printf("outside scope\n");
-        return 0;
+        return;
     }
     if (command==SELECT) {
         FIELD_VIEW[x][y]=FIELD_MODEL[x][y];
@@ -136,8 +136,7 @@ int main(void){
         printf("malloc error");
         return 0;
     }
-    initialize_model();
-    initialize_view();
+    initialize_model();d7
     update_view(0, 0, 0, SHOW); printf("\n");
     do{
         printf("enter command: ");
