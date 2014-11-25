@@ -4,7 +4,7 @@
 
 #define FIELD_SIZE_X 10
 #define FIELD_SIZE_Y 10
-#define MINES_NR 7
+#define MINES_NR 3
 #define EMPTY 0
 #define MINE 9
 #define EXP_MINE 10
@@ -17,7 +17,7 @@ int FIELD_MODEL[FIELD_SIZE_X][FIELD_SIZE_Y];
 int FIELD_VIEW[FIELD_SIZE_X][FIELD_SIZE_Y];
 char GRAPHIC[] = {' ','1','2','3','4','5','6','7','8','M','X','F','#','S'};
 
-int initialize_model(void){
+void initialize_model(void){
     int x,y,i,j,k;
     
     srand((unsigned) time(NULL));
@@ -27,7 +27,6 @@ int initialize_model(void){
             FIELD_VIEW[i][j]=HIDDEN;
         }
     }
-    
     for (i=0; i<MINES_NR; i++){
         x=rand()%(FIELD_SIZE_X);
         y=rand()%(FIELD_SIZE_Y);
@@ -46,9 +45,6 @@ int initialize_model(void){
             }
         }
     }
-    
-    
-    return 1;
 }
 
 void update_view(int x, int y, int command, int mode){
@@ -59,12 +55,10 @@ void update_view(int x, int y, int command, int mode){
     }
     if (command==SELECT) {
         FIELD_VIEW[x][y]=FIELD_MODEL[x][y];
-        if (FIELD_VIEW[x][y]==EMPTY ) {
+        if (FIELD_VIEW[x][y]==EMPTY ) {    // recusive opening of sourounding fields
             for (i=-1; i<=1; i++) {
                 for (j=-1; j<=1; j++) {
-                    if (i==0 && j==0) {
-                        
-                    }
+                    if (i==0 && j==0);
                     else if(FIELD_VIEW[x+i][y+j]!=EMPTY && x+i>=0 && x+i<FIELD_SIZE_X && y+j>=0 && y+j<FIELD_SIZE_Y) update_view(x+i, y+j, SELECT, HIDDEN);
                 }
             }
@@ -136,7 +130,7 @@ int main(void){
         printf("malloc error");
         return 0;
     }
-    initialize_model();d7
+    initialize_model();
     update_view(0, 0, 0, SHOW); printf("\n");
     do{
         printf("enter command: ");
@@ -151,6 +145,7 @@ int main(void){
         }
         else {
             x=(x+1)*10+(input[2]-'1');
+            
             
             if (input[3]=='s') {
                 command=SELECT;
@@ -171,9 +166,7 @@ int main(void){
                     return 1;
                 }
             }
-            
         }
-        
     }while (input[0]!='q');
     return 1;
 }
